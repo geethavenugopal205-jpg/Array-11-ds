@@ -1,0 +1,39 @@
+class Solution:
+    # Function to remove a loop in the linked list.
+    def removeLoop(self, head):
+        if not head or not head.next:
+            return
+        
+        slow = head
+        fast = head
+        
+        # Step 1: Detect Loop
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            
+            if slow == fast:
+                self.breakLoop(head, slow)
+                return
+
+    def breakLoop(self, head, meeting_point):
+        slow = head
+        fast = meeting_point
+        
+        # Special Case: Loop starts at the Head
+        if slow == fast:
+            while fast.next != slow:
+                fast = fast.next
+            fast.next = None
+            return
+
+        # Step 2 & 3: Find the node just before the start of the loop
+        while slow.next != fast.next:
+            slow = slow.next
+            fast = fast.next
+            
+        # Break the connection
+        fast.next = None
+        
+
+        
